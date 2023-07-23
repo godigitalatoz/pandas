@@ -1,11 +1,15 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 
-df = pd.read_csv('data_1.csv')
+df = pd.read_csv('data_2.csv')
 
-df['Date'] = pd.to_datetime(df['Date'], format='mixed')
-df.dropna(subset=['Date'], inplace=True)
+y = df['Calories'].median()
+df["Calories"].fillna(y, inplace=True)
 
-x = df['Calories'].median()[0]
-df["Calories"].fillna(x, inplace=True)
+for x in df.index:
+    if df.loc[x , "Duration"] > 120:
+        df.loc[x, "Duration"] = 120
+df.drop_duplicates(inplace = True)
 
-print(df.to_string())
+
+plt.show()
